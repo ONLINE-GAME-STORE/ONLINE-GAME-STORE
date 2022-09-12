@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Game = require("../models/User");
+const Game = require("../models/Game");
 
 router.get("/", (req, res, next) => {
   res.send("hello from games index page");
@@ -17,7 +17,9 @@ router.post("/add", (req, res, next) => {
   Game.create({
 		name: name,
 		author: author,
-	});
+	})
+	.then(newGame => console.log(newGame))
+	.catch(err => console.log(err))
 });
 
 router.get("/:id", (req, res, next) => {
