@@ -8,14 +8,19 @@ router.get("/", (req, res, next) => {
 });
 
 router.get('/dashboard', loginCheck(), (req,res,next) => {
+  let sameUserCheck = true;
   const loggedInUser = req.user;
-  res.render('dashboard', {loggedInUser})
+  res.render('dashboard', {loggedInUser, sameUserCheck})
 })
 
 router.get('/dashboard/:id', (req,res,next) => {
+  let sameUserCheck = false
   const userId = req.params.id;
+  if (req.user && req.user.id === userId) {
+    sameUserCheck = true
+  }
   User.findById(userId)
-  .then(loggedInUser => res.render('dashboard', {loggedInUser}))
+  .then(loggedInUser => res.render('dashboard', {loggedInUser, sameUserCheck}))
   .catch(err => console.log(err))
 })
 

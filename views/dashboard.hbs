@@ -4,15 +4,19 @@
 <div class="profile-holder">
     <img src="{{profilePicPath}}" alt="profile picture">
     <h2>Username: {{username}}</h2>
-    <h2>GitHub: {{githubLink}}</h2>
-    <h2>Your games: 
+    <h2> <a href="{{githubLink}}">GitHub</a></h2>
+    <h2>User games: 
         {{#each games}}
         <h3>{{this}}</h3>
         {{/each}}
     </h2>
 </div>
 
-<a href="/auth/edit/{{_id}}">Edit your profile</a>
 {{/with}}
 
-<a href="/auth/logout">Log Out!</a>
+{{#if sameUserCheck}}
+<div class="profile-controls">
+    <a href="/auth/edit/{{loggedInUser.id}}">Edit your profile</a>
+    <a href="/auth/logout">Log Out!</a>
+</div>
+{{/if}}
