@@ -23,21 +23,17 @@ body {
 
 .main-nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: relative;
-  padding: 10px 20px;
+  padding: 10px 60px;
+  flex-wrap: wrap;
 }
-.main-nav h2 {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
+
 
 .sub-nav {
   display: flex;
   justify-content: space-between;
-  margin-left: auto;
   gap: 15px;
   list-style: none;
 }
