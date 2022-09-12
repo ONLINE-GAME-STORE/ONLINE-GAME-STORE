@@ -1,1 +1,19 @@
 <h1>hello from profile edit page</h1>
+
+{{#with loggedInUser}}
+<form action="/auth/edit/{{_id}}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" value="{{username}}">
+
+    <label for="github">GitHub account:</label>
+    <input type="text" name="github" id="github" value="{{githubLink}}">
+    
+    {{!-- placeholder --}}
+    <label for="picture">Profile picture:</label>
+    <input type="text" name="" id="">
+
+    {{!-- maybe password changing --}}
+    <button type="submit">Save changes</button>
+</form>
+
+{{/with}}
