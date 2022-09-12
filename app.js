@@ -71,11 +71,11 @@ passport.use((
 					// username is not correct
 					done(null, false, { message: 'Wrong Credentials' })
 				} else { // THIS WORKS ! THIS CHECKS FOR THE PASSWORD AGAINST THE HASH
-                    if (bcryptjs.compareSync(password, user.password)) {
+                    if (bcrypt.compareSync(password, user.password)) {
                         done(null, user)
                     }
                     else {
-                        done(null,false, { message: 'Wrong Credetnials'})
+                        done(null,false, { message: 'Wrong Credentials'})
                     }
 				}
 			})
@@ -89,7 +89,8 @@ app.use("/", index);
 const auth = require("./routes/auth")
 app.use('/auth', auth)
 
-
+const games = require("./routes/games")
+app.use('/games', games)
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
