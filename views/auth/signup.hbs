@@ -1,6 +1,6 @@
 <h1>hello from signup page</h1>
 
-<form action="/auth/edit/{{_id}}" method="post">
+<form action="/auth/signup" method="post" enctype="multipart/form-data">
     <label for="username">Username:</label>
     <input type="text" name="username" id="username">
 
@@ -8,11 +8,11 @@
     <input type="text" name="password" id="password">
 
     <label for="github">GitHub account:</label>
-    <input type="text" name="github" id="github">
+    <input type="text" name="githubLink" id="github">
     
     {{!-- placeholder --}}
     <label for="picture">Profile picture:</label>
-    <input type="text" name="" id="">
+    <input type="file" name="profilePic" id="picture">
 
     <button type="submit">Sign Up</button>
 </form>

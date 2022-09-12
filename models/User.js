@@ -10,6 +10,7 @@ const userSchema = new Schema(
     password: String,
     githubLink: String,
     profilePic: String,
+    profilePicPath: String,
     games: [{
       type: Schema.Types.ObjectId,
       ref: "Game"

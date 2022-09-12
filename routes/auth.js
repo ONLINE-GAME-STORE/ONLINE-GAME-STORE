@@ -3,14 +3,17 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const passport = require("passport");
 const loginCheck = require("../utils/authenticatorFuncitions");
+const ifLoggedInRedirectToDash = require("../utils/authenticatorFuncitions")
+const uploader = require('../config/cloudinary')
 
-
-router.get("/signup", (req, res, next) => {
+router.get("/signup", ifLoggedInRedirectToDash(), (req, res, next) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", (req, res, next) => {
-  const { username, password } = req.body;
+router.post("/signup", uploader.single('profilePic'), (req, res, next) => {
+  const { username, password, githubLink} = req.body;
+	const profilePic = req.file.originalname
+	const profilePicPath = req.file.path
 
   // ADD HERE SOME PASSWORD VALIDATION LATER
   // is the password + 4 chars
@@ -24,39 +27,40 @@ router.post("/signup", (req, res, next) => {
   // }
   // validation passed
   // do we already have a user with that username in the db?
+	
 
-  User.findOne({ username: username }).then((userFromDB) => {
+  User.findOne({ username: username })
+	.then((userFromDB) => {
     if (userFromDB !== null) {
-      res.render("signup", { message: "Username is alredy taken" });
+      res.render("signup", { message: "Username is already taken" });
     } else {
       // we can use that username
       // and hash the password
       const salt = bcrypt.genSaltSync();
       const hash = bcrypt.hashSync(password, salt);
       // create the user
-      User.create({ username, password: hash })
+      User.create({ username, password: hash, githubLink, profilePic, profilePicPath })
         .then((createdUser) => {
           console.log(createdUser);
           // if we want to log the user in using passport
           // req.login()
-          res.redirect("/login");
+          res.redirect("/auth/login");
         })
-        .catch((err) => next(err));
+  			.catch((err) => next(err));
     }
-  });
+  })
+	.catch(err => console.log(err))
 });
 
-router.get("/login", (req, res, next) => {
+router.get("/login", ifLoggedInRedirectToDash(), (req, res, next) => {
   res.render("auth/login");
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
+router.post("/login", passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/auth/login",
-  })
-);
+  }))
+
 
 //must be protected only the user himself can see this page
 //otherwise redirect
@@ -68,6 +72,13 @@ router.get("/edit/:id", loginCheck(), (req, res, next) => {
   } else {
     res.redirect("/auth/login");
   }
+});
+
+router.get('/logout', (req, res, next) => {
+	req.logout(function (err) {
+		if (err) { return next(err); }
+		res.redirect('/');
+	});
 });
 
 module.exports = router;
