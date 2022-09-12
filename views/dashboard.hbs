@@ -1,0 +1,15 @@
+<h1>Hello from dashboard page</h1>
+{{#with loggedInUser}}
+<div class="profile-holder">
+    <img src="{{profilePic}}" alt="profile picture">
+    <h2>Username: {{username}}</h2>
+    <h2>GitHub: {{githubLink}}</h2>
+    <h2>Your games: 
+        {{#each games}}
+        <h3>{{this}}</h3>
+        {{/each}}
+    </h2>
+</div>
+
+<a href="/auth/edit/{{_id}}">Edit your profile</a>
+{{/with}}

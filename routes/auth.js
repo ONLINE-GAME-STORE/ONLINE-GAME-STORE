@@ -48,12 +48,28 @@ router.post("/signup", (req,res,next) => {
 });
 
 router.get('/login', (req,res,next) => {
-    res.send('Hello from login page')
+    res.render('auth/login')
 })
 
 router.post('/login', passport.authenticate('local', {
-	successRedirect: '/profile',
-	failureRedirect: '/login'
+	successRedirect: '/dashboard',
+	failureRedirect: '/auth/login'
 }));
+
+//must be protected only the user himself can see this page
+//otherwise redirect
+router.get('/edit/:id', (req,res,next) => {
+    if (req.user) {
+        const userId = req.params.id;
+        const loggedInUser = req.user
+        if (req.user.id === userId) {
+            res.render('auth/edit', {loggedInUser})
+        } else{
+            res.redirect('/auth/login')
+        }
+    } else {
+        res.redirect('/auth/login')
+    }
+})
 
 module.exports = router
