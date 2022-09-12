@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const User = require('../models/User')
+const {loginCheck} = require('../utils/authenticatorFuncitions')
 
 /* GET home page */
 router.get("/", (req, res, next) => {
   res.render("index");
 });
 
-router.get('/dashboard', (req,res,next) => {
+router.get('/dashboard', loginCheck(), (req,res,next) => {
   const loggedInUser = req.user;
   res.render('dashboard', {loggedInUser})
 })

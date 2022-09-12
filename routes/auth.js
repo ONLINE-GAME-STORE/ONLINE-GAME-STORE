@@ -2,8 +2,8 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const passport = require("passport");
-const loginCheck = require("../utils/authenticatorFuncitions");
-const ifLoggedInRedirectToDash = require("../utils/authenticatorFuncitions")
+const {loginCheck} = require("../utils/authenticatorFuncitions");
+const {ifLoggedInRedirectToDash} = require("../utils/authenticatorFuncitions")
 const uploader = require('../config/cloudinary')
 
 router.get("/signup", ifLoggedInRedirectToDash(), (req, res, next) => {
@@ -73,6 +73,54 @@ router.get("/edit/:id", loginCheck(), (req, res, next) => {
     res.redirect("/auth/login");
   }
 });
+
+router.post("/edit/:id", loginCheck(), uploader.single('profilePic'), (req,res,next) => {
+	const loggedInUser = req.user
+	const userId = req.params.id;
+	if (loggedInUser.id === userId) {
+		const newInfo = {};
+		if (req.body.username) {
+			newInfo.username = req.body.username
+		} else {
+			newInfo.username = req.user.username
+		}
+		if (req.body.githubLink) {
+			newInfo.githubLink = req.body.githubLink
+		} else {
+			newInfo.githubLink = req.user.githubLink;
+		}
+		if (req.file) {
+			newInfo.profilePic = req.file.originalname
+			newInfo.profilePicPath = req.file.path
+		} else {
+			newInfo.profilePic = req.user.profilePic
+			newInfo.profilePicPath = req.user.profilePicPath
+		}
+		if (req.body.currentPass && req.body.newPass) {
+			if (bcrypt.compareSync(req.body.currentPass, req.user.password)) {
+				const salt = bcrypt.genSaltSync();
+				const hash = bcrypt.hashSync(req.body.newPass, salt);
+				newInfo.password = hash
+			} else {
+				res.redirect('/auth/edit/' + req.user._id)
+			}
+		}
+		console.log(req.body)
+		User.findByIdAndUpdate(userId, {...newInfo
+		}, {new:true})
+		.then(updatedProfile => {
+			console.log(updatedProfile)
+			// setting the session user as the updatedProfile
+			// ONLY IF SOME BUGS APPEAR
+			// req.user = updatedProfile; <=== THIS DOESNT WORK THO
+			
+			res.redirect('/dashboard')
+		})
+		.catch(err => console.log(err))
+	} else {
+		res.redirect('/auth/login')
+	}
+})
 
 router.get('/logout', (req, res, next) => {
 	req.logout(function (err) {

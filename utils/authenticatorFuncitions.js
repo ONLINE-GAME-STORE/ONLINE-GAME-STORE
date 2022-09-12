@@ -28,4 +28,4 @@ function ifLoggedInRedirectToDash() {
   }
 }
 
-module.exports = ( loginCheck, ifLoggedInRedirectToDash )
+module.exports =  {loginCheck, ifLoggedInRedirectToDash}
