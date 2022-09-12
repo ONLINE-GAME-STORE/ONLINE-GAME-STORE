@@ -1,22 +1,22 @@
 <h1>Hello from dashboard page</h1>
 
-{{#with loggedInUser}}
 <div class="profile-holder">
+    {{#with loggedInUser}}
     <img src="{{profilePicPath}}" alt="profile picture">
     <h2>Username: {{username}}</h2>
-    <h2> <a href="{{githubLink}}">GitHub</a></h2>
+    <a class="github-link"href="{{githubLink}}"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="github logo"></a>
     <h2>User games: 
         {{#each games}}
         <h3>{{this}}</h3>
         {{/each}}
     </h2>
-</div>
 
-{{/with}}
+    {{/with}}
 
-{{#if sameUserCheck}}
-<div class="profile-controls">
-    <a href="/auth/edit/{{loggedInUser.id}}">Edit your profile</a>
-    <a href="/auth/logout">Log Out!</a>
+    {{#if sameUserCheck}}
+    <div class="profile-controls">
+        <a href="/auth/edit/{{loggedInUser.id}}">Edit your profile</a>
+        <a href="/auth/logout">Log Out!</a>
+    </div>
+    {{/if}}
 </div>
-{{/if}}

@@ -10,3 +10,58 @@ a {
 h1 {
   color: 15px;
 }
+
+body {
+  margin:0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 10px 20px;
+}
+.main-nav h2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sub-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-left: auto;
+  gap: 15px;
+  list-style: none;
+}
+.sub-nav li a {
+  text-decoration: none;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.profile-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.github-link img {
+  height: 64px;
+}
