@@ -25,7 +25,7 @@ const projectName = "online-game-store";
 app.locals.appTitle = `${capitalized(projectName)} created with IronLauncher`;
 
 // import bcryptjs for password hashing
-
+const bcrypt = require('bcryptjs')
 // Session initializing and config
 
 const session = require('express-session');
@@ -44,7 +44,7 @@ app.use(session({
 
 // passport import and configuration
 
-const User = require('./models/User.model')
+const User = require('./models/User')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
