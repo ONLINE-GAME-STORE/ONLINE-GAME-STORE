@@ -9,6 +9,7 @@ const userSchema = new Schema(
     },
     password: String,
     githubLink: String,
+    githubId: String,
     profilePic: String,
     profilePicPath: String,
     games: [{

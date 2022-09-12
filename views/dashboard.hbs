@@ -1,15 +1,15 @@
-<h1>Hello from dashboard page</h1>
+<h1>Dashboard</h1>
 
 <div class="profile-holder">
     {{#with loggedInUser}}
     <img src="{{profilePicPath}}" alt="profile picture">
-    <h2>Username: {{username}}</h2>
+    <h3>{{username}}</h3>
     <a class="github-link"href="{{githubLink}}"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="github logo"></a>
-    <h2>User games: 
+    <h3>Games: 
         {{#each games}}
         <h3>{{this}}</h3>
         {{/each}}
-    </h2>
+    </h3>
 
     {{/with}}
 

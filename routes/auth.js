@@ -129,4 +129,14 @@ router.get('/logout', (req, res, next) => {
 	});
 });
 
+// GITHUB AUTH ROUTES
+
+router.get('/github', passport.authenticate('github'));
+
+router.get('/github/callback', passport.authenticate('github', {
+	successRedirect: '/dashboard',
+	failureRedirect: '/auth/signup'
+}));
+
+
 module.exports = router;

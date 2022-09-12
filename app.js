@@ -82,6 +82,43 @@ passport.use((
 	})
 ))
 
+// DEFINE THE NEW GITHUB STRATEGY
+
+const GithubStrategy = require('passport-github').Strategy
+
+passport.use(new GithubStrategy({
+	// HERE YOU NEED TO GO TO GITHUB AND AUTHORIZE YOUR APP
+	// careful what you put here everything should match
+	clientID: process.env.GITHUB_ID,
+	clientSecret: process.env.GITHUB_SECRET,
+	callbackURL: 'http://localhost:3000/auth/github/callback'
+	},
+	(accessToken, refreshToken, profile, done) => {
+		console.log(profile)
+		User.findOne({
+			githubId: profile.id,
+		})
+			.then(user => {
+				if (user !== null) {
+					// pass the user to passport to serialize it
+					done(null, user)
+				} else {
+					// we don't have this user in the db so we create it
+					// MODEL USER NOW HAS TO SUPPORT THESE FIELDS :)
+					User.create({
+						githubId: profile.id,
+						username: profile.username,
+						profilePicPath: profile._json.avatar_url,
+						githubLink: profile._json.html_url
+					})
+						.then(user => {
+							done(null, user)
+						})
+				}
+			})
+	}))
+
+
 // Use express-sessions and passport to handle user's sessions
 app.use(passport.initialize())
 app.use(passport.session())
