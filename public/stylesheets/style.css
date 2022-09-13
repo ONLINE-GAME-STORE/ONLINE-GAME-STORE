@@ -121,7 +121,7 @@ body {
   text-align: center;
 }
 
-.profile-holder img {
+.profile-pic {
   max-width: clamp(100px,40%,200px);
   height: auto;
 }
