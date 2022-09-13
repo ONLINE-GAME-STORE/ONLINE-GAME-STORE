@@ -1,0 +1,12 @@
+
+<div class="games-container">
+
+{{#each foundGames}}
+<div class="game-card">
+    <a href="/games/{{_id}}">
+    <img src="{{posterUrl}}" alt="Image of {{name}}">
+    </a>
+    <h4>{{name}}</h4>
+    </div>
+{{/each}}
+</div>

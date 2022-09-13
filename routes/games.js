@@ -153,9 +153,11 @@ router.get("/:id/reviews", (req, res, next) => {
 
 // GAME DETAILS 
 router.get("/:id", (req, res, next) => {
-	// res.send("Chosen-Game 👾")
 	const id = req.params.id 
+	const loggedInUserId = req.user.id
+	let sameUserCheck = false
 	Game.findById(id)
+	.populate('userAdded')
 	// REVIEWS -> showing only Username (who wrote the review) and the review 
 	.populate({
 		path: "reviews",
@@ -170,24 +172,29 @@ router.get("/:id", (req, res, next) => {
 				}
 			})
 			.then(gameFromDB => {
-				// res.send(gameFromDB)
+				console.log(gameFromDB.userAdded.id)
+				console.log(loggedInUserId)
+				if (gameFromDB.userAdded.id === loggedInUserId) {
+					sameUserCheck = true
+				}
+				console.log(sameUserCheck)
 				const fiveReviews = gameFromDB.reviews.slice(0, 5)
-				res.render("games/details", {gameDetail: gameFromDB, fiveReviews})
+				res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck})
 			})
 			.catch(err => (err))
 		})
 		
-		// REVIEW POST -> Uploading review to the DB 
-		router.post("/:id", (req, res, next) => {
-			const id = req.params.id
-			const review = req.body.review 
-			const user = req.user
-			Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review}}})
-			.then(gameFromDB => {
-				res.redirect(id) 
-			})
-			.catch(err => (err))
-		})
+// REVIEW POST -> Uploading review to the DB 
+router.post("/:id", (req, res, next) => {
+	const id = req.params.id
+	const review = req.body.review 
+	const user = req.user
+	Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review}}})
+	.then(gameFromDB => {
+		res.redirect(id) 
+	})
+	.catch(err => (err))
+})
 		
 		
 module.exports = router;
