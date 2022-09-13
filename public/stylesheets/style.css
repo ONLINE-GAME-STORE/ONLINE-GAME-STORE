@@ -63,20 +63,23 @@ h3 {
 
 :root {
   --primary-color: #ffffff;
-  --background-color: #3e3e3e;
+  --background-color: #7c7a7a;
+  --header-color: rgb(45, 44, 44);
+  --footer-color: rgb(56, 56, 56);
   --accent-color: rgb(46, 95, 231);
-  --text-color: black;
+  --text-color: rgb(213, 212, 215);
+  --main-font: 'Roboto', sans-serif;
 }
 
 body {
+  color: var(--text-color);
   margin:0;
   padding: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-
+  font-family: var(--main-font)
 }
 
 .main-nav {
@@ -86,6 +89,7 @@ body {
   position: relative;
   padding: 10px 60px;
   flex-wrap: wrap;
+  background-color: var(--header-color);
 }
 
 
@@ -107,6 +111,8 @@ body {
   justify-content: space-around;
   align-items: center;
   flex: 1 1 100%;
+  padding: 30px 0;
+  background-color: var(--background-color);
 }
 
 
@@ -136,4 +142,94 @@ body {
   padding: 3px;
   height: 30px;
   text-align: center;
+  background-color: var(--footer-color);
+}
+
+/* INDEX PAGE STYLING */
+
+.button-holder {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  padding: 10px 40px;
+  height: 200px;
+  width: 440px;
+  align-items: center;
+}
+
+.button {
+  border: 1px solid black;
+  padding:10px 50px;
+  width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* LOGIN AND SIGN UP PAGE STYLES */
+
+.login-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 300px;
+  border: 1px solid black;
+  padding: 30px 50px;
+}
+
+#login-github {
+  width: 60px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  gap:10px;
+}
+
+.login-form input {
+  background-color: var(--footer-color);
+  color: var(--main-font);
+  border: 0;
+
+}
+.login-form label {
+  text-align: center;
+}
+
+.auth-button {
+  margin-top: 20px;
+  background-color: var(--footer-color);
+  border: 0;
+  padding: 10px 0;
+}
+
+/* GAMES INDEX */
+
+.games-container {
+  display:flex;
+  max-width: 90%;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-around;
+
+}
+
+.game-card {
+  display:flex;
+  flex-direction: column;
+  height: 200px;
+  width: 150px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid white;
+  padding: 0 0 5px 0;
+
+}
+.game-card img {
+  width: 150px;
 }

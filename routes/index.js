@@ -4,7 +4,11 @@ const {loginCheck} = require('../utils/authenticatorFuncitions')
 
 /* GET home page */
 router.get("/", (req, res, next) => {
-  res.render("index");
+  let noLoggedUser = true;
+  if (req.user) {
+    noLoggedUser = false;
+  }
+  res.render("index", {noLoggedUser});
 });
 
 router.get('/dashboard', loginCheck(), (req,res,next) => {

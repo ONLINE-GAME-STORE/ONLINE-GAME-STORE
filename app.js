@@ -20,9 +20,9 @@ require("./config")(app);
 
 // default value for title local
 const capitalized = require("./utils/capitalized");
-const projectName = "online-game-store";
+const projectName = "IronGames";
 
-app.locals.appTitle = `${capitalized(projectName)} created with IronLauncher`;
+app.locals.appTitle = projectName;
 
 // import bcryptjs for password hashing
 const bcrypt = require('bcryptjs')
