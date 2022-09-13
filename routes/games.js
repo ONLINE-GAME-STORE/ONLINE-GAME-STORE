@@ -5,6 +5,7 @@ const {
   ifLoggedInRedirectToDash,
 } = require("../utils/authenticatorFuncitions");
 const uploader = require("../config/cloudinary");
+const User = require("../models/User");
 
 // GAME INDEX (LIBRARY)
 router.get("/", (req, res, next) => {
@@ -17,61 +18,6 @@ router.get("/", (req, res, next) => {
 .catch(err => next(err))
 });
 
-// GAME DETAILS 
-router.get("/:id", (req, res, next) => {
-	// res.send("Chosen-Game 👾")
-	const id = req.params.id 
-	Game.findById(id)
-	// REVIEWS -> showing only Username (who wrote the review) and the review 
-	.populate({
-		path: "reviews",
-		// options: {
-		// 	limit: 5
-		// },
-		populate: {
-			path: "user",
-			// options: {
-			// 	limit: 5 
-			// }
-		}
-	})
-	.then(gameFromDB => {
-		// res.send(gameFromDB)
-		const fiveReviews = gameFromDB.reviews.slice(0, 5)
-		res.render("games/details", {gameDetail: gameFromDB, fiveReviews})
-	})
-	.catch(err => (err))
-})
-
-// REVIEWS PAGE 
-router.get("/:id/reviews", (req, res, next) => {
-	// res.send("Reviews ⭐️")
-	const id = req.params.id 
-	Game.findById(id)
-	.populate({
-		path: "reviews",
-		populate: {
-			path: "user"
-		}
-	})
-	.then (reviewFromDB => {
-		res.render("games/reviews", { gameReviews: reviewFromDB})
-	})
-	.catch(err => (err))
-})
-
-// REVIEW POST -> Uploading review to the DB 
-router.post("/:id", (req, res, next) => {
-	const id = req.params.id
-	const review = req.body.review 
-	const user = req.user
-	Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review}}})
-	.then(gameFromDB => {
-		res.redirect(id) 
-	})
-	.catch(err => (err))
-})
-
 
 // should be protected route
 router.get("/add", loginCheck(), (req, res, next) => {
@@ -83,7 +29,6 @@ router.post(
   loginCheck(),
   uploader.single("posterUrl"),
   (req, res, next) => {
-    const loggedInUser = req.user;
     const loggedInUserId = req.user.id;
     const { name, author, description, gameLink } = req.body;
     const posterUrl = req.file.path;
@@ -96,17 +41,20 @@ router.post(
       userAdded: loggedInUserId,
     })
       .then((newGame) => {
-        console.log(newGame);
-        res.redirect("/games/" + newGame.id);
+				console.log(newGame)
+				return User.findByIdAndUpdate(loggedInUserId, {
+					$push : {games : newGame.id}
+					
+				}, {new:true})
+				.then(updatedUser => {
+					console.log(updatedUser)
+					res.redirect("/games/" + newGame.id);
+				})
+				.catch((err) => console.log(err))
       })
       .catch((err) => console.log(err));
   }
 );
-
-
-router.get("/:id", (req, res, next) => {
-  res.send("hello from a game details page");
-});
 
 // protected route only for user who added the game
 
@@ -184,4 +132,62 @@ router.post(
   }
 );
 
+
+// REVIEWS PAGE 
+router.get("/:id/reviews", (req, res, next) => {
+	// res.send("Reviews ⭐️")
+	const id = req.params.id 
+	Game.findById(id)
+	.populate({
+		path: "reviews",
+		populate: {
+			path: "user"
+		}
+	})
+	.then (reviewFromDB => {
+		res.render("games/reviews", { gameReviews: reviewFromDB})
+	})
+	.catch(err => (err))
+})
+
+
+// GAME DETAILS 
+router.get("/:id", (req, res, next) => {
+	// res.send("Chosen-Game 👾")
+	const id = req.params.id 
+	Game.findById(id)
+	// REVIEWS -> showing only Username (who wrote the review) and the review 
+	.populate({
+		path: "reviews",
+		// options: {
+			// 	limit: 5
+			// },
+			populate: {
+				path: "user",
+				// options: {
+					// 	limit: 5 
+					// }
+				}
+			})
+			.then(gameFromDB => {
+				// res.send(gameFromDB)
+				const fiveReviews = gameFromDB.reviews.slice(0, 5)
+				res.render("games/details", {gameDetail: gameFromDB, fiveReviews})
+			})
+			.catch(err => (err))
+		})
+		
+		// REVIEW POST -> Uploading review to the DB 
+		router.post("/:id", (req, res, next) => {
+			const id = req.params.id
+			const review = req.body.review 
+			const user = req.user
+			Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review}}})
+			.then(gameFromDB => {
+				res.redirect(id) 
+			})
+			.catch(err => (err))
+		})
+		
+		
 module.exports = router;
