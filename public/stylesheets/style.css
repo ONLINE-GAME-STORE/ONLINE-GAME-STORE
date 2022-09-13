@@ -63,11 +63,13 @@ h3 {
 
 :root {
   --primary-color: #ffffff;
-  --background-color: #7c7a7a;
+  --background-color-700: #121212;
+  --background-color-500: #262626;
+  --background-color-300: #484848;
   --header-color: rgb(45, 44, 44);
   --footer-color: rgb(56, 56, 56);
   --accent-color: rgb(46, 95, 231);
-  --text-color: rgb(213, 212, 215);
+  --text-color: rgb(255, 255, 255);
   --main-font: 'Roboto', sans-serif;
 }
 
@@ -79,7 +81,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: var(--main-font)
+  font-family: var(--main-font);
+  background-image: linear-gradient(to right top, #000000, #070707, #0d0d0d, #121212, #161616, #191919, #1c1c1c, #1f1f1f, #222222, #262626, #292929, #2d2d2d);
 }
 
 .main-nav {
@@ -87,9 +90,8 @@ body {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding: 10px 60px;
+  padding: 20px 60px;
   flex-wrap: wrap;
-  background-color: var(--header-color);
 }
 
 
@@ -112,8 +114,17 @@ body {
   align-items: center;
   flex: 1 1 100%;
   padding: 30px 0;
-  background-color: var(--background-color);
+  /* background-color: var(--background-color-700); */
+  position: relative;
+  isolation: isolate;
 }
+
+.main-container::after {
+  content: "";  z-index: -1;
+  position:absolute;
+  inset: 0;
+  opacity: 1;
+  }
 
 
 
@@ -142,7 +153,7 @@ body {
   padding: 3px;
   height: 30px;
   text-align: center;
-  background-color: var(--footer-color);
+  /* background-color: var(--footer-color); */
 }
 
 /* INDEX PAGE STYLING */
@@ -152,7 +163,9 @@ body {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  border: 1px solid black;
+  border: 1px solid rgba(207, 207, 207, 0.54);
+  background-color: #f3f0f00d;
+  border-radius: 20px;
   padding: 10px 40px;
   height: 200px;
   width: 440px;
@@ -160,7 +173,8 @@ body {
 }
 
 .button {
-  border: 1px solid black;
+  border: 1px solid rgb(117, 117, 117);
+  background-color: var(--background-color-300);
   padding:10px 50px;
   width: 90px;
   display: flex;
@@ -228,8 +242,9 @@ body {
   align-items: center;
   border: 1px solid white;
   padding: 0 0 5px 0;
+  overflow:hidden;
 
 }
 .game-card img {
-  width: 150px;
+  height: 180px;
 }

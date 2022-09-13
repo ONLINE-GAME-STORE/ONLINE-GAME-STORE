@@ -8,7 +8,11 @@ router.get("/", (req, res, next) => {
   if (req.user) {
     noLoggedUser = false;
   }
-  res.render("index", {noLoggedUser});
+  if (noLoggedUser) {
+    res.render("index", {noLoggedUser});
+  } else {
+    res.redirect('/games')
+  }
 });
 
 router.get('/dashboard', loginCheck(), (req,res,next) => {
