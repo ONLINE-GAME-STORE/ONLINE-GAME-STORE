@@ -1,0 +1,30 @@
+{{!-- GAME DETAILS --}}
+{{#with gameDetail}}
+<h1>{{name}}</h1>
+<p>Game developed by: {{name}}</p>
+<p>Description: {{description}}</p>
+<a href="games/{{_id}}/edit">Edit the Game</a>
+<form action="/games/{{_id}}" method="POST">
+    <label for="review">Give a review 😎 </label>
+    <input type="text" name="review" id="review">
+    <button type="submit">Submit</button>
+</form> 
+{{/with}}
+{{!-- FIVE REVIEWS --}}
+{{#each fiveReviews}}
+<div>
+    <p>{{this.user.username}}:</p>
+<br>
+{{this.text}}
+</div>
+{{/each}}
+
+{{!-- BUTTON FOR ALL REVIEWS --}}
+{{#with gameDetail}}
+<div>
+    <form action="/games/{{_id}}/reviews" method="get">
+        {{!-- <label for="reviewsList">Read more Reviews ⭐️</label> --}}
+        <button type="submit">Read more Reviews ⭐️</button>
+    </form>
+</div>
+{{/with}}
