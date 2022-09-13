@@ -6,11 +6,7 @@ const gameSchema = new Schema(
     author: String,
     posterUrl: String,
     description: String,
-<<<<<<< HEAD
     gameLink: String,
-=======
-    gameLink: String, 
->>>>>>> main
     userAdded: {
       type: Schema.Types.ObjectId,
       ref: 'User',
