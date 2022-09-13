@@ -1,6 +1,9 @@
 <h1>Game Library 🎮</h1>
 {{#each gameList}}
+<div class="game-card">
 <a href="/games/{{_id}}">
+<img src="{{posterUrl}}" alt="Image of {{name}}">
 <h4>{{name}}</h4>
 </a>
+</div>
 {{/each}}
