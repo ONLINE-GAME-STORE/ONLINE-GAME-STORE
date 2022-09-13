@@ -1,0 +1,11 @@
+{{!-- ALL REVIEWS FOR THE CHOSEN GAME --}}
+{{#with gameReviews}}
+<h1>Reviews of the Game: {{name}} ⭐️</h1>
+{{#each reviews}}
+<div>
+    <p>{{this.user.username}}:</p>
+    <br>
+    <p>{{this.text}}</p>
+</div>
+{{/each}}
+{{/with}}
