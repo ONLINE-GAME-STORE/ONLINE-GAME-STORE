@@ -6,6 +6,7 @@ const gameSchema = new Schema(
     author: String,
     posterUrl: String,
     description: String,
+    gameLink: String,
     userAdded: {
       type: Schema.Types.ObjectId,
       ref: 'User',
