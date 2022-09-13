@@ -1,7 +1,8 @@
 {{!-- GAME DETAILS --}}
 {{#with gameDetail}}
 <h1>{{name}}</h1>
-<p>Game developed by: {{name}}</p>
+<img src="{{posterUrl}}" alt="Image of {{name}}">
+<p>Game developed by - {{name}}</p>
 <p>Description: {{description}}</p>
 <a href="/games/{{_id}}/edit">Edit the Game</a>
 <form action="/games/{{_id}}" method="POST">
