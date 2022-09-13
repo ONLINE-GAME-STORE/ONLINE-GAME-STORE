@@ -9,7 +9,13 @@ const userSchema = new Schema(
     },
     password: String,
     githubLink: String,
-    profilePic: String
+    githubId: String,
+    profilePic: String,
+    profilePicPath: String,
+    games: [{
+      type: Schema.Types.ObjectId,
+      ref: "Game"
+    }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
