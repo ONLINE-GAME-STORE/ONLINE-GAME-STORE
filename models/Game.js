@@ -18,7 +18,7 @@ const gameSchema = new Schema(
           ref: "User",
         },
         text: String,
-        // rating?! 
+        rating: String
       },
     ],
   },
