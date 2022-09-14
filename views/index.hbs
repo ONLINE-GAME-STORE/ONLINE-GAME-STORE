@@ -1,5 +1,7 @@
-<h1>{{appTitle}} 🚀</h1>
-<p>Welcome Ironhacker!</p>
 
-<a href="/auth/login">Log In</a>
-<a href="/auth/signup">Sign Up</a>
+    {{#if noLoggedUser}}
+    <div class="button-holder">
+        <a class="button" href="/auth/login">Log In</a>
+        <a class="button" href="/auth/signup">Sign Up</a>
+    </div>
+    {{/if}}

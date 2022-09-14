@@ -20,9 +20,9 @@ require("./config")(app);
 
 // default value for title local
 const capitalized = require("./utils/capitalized");
-const projectName = "online-game-store";
+const projectName = "IronGames";
 
-app.locals.appTitle = `${capitalized(projectName)} created with IronLauncher`;
+app.locals.appTitle = projectName;
 
 // import bcryptjs for password hashing
 const bcrypt = require('bcryptjs')
@@ -134,6 +134,8 @@ app.use('/auth', auth)
 const games = require("./routes/games")
 app.use('/games', games)
 
+const search = require("./routes/search")
+app.use('/search', search)
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

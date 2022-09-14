@@ -4,13 +4,23 @@ const {loginCheck} = require('../utils/authenticatorFuncitions')
 
 /* GET home page */
 router.get("/", (req, res, next) => {
-  res.render("index");
+  let noLoggedUser = true;
+  if (req.user) {
+    noLoggedUser = false;
+  }
+  if (noLoggedUser) {
+    res.render("index", {noLoggedUser});
+  } else {
+    res.redirect('/games')
+  }
 });
 
 router.get('/dashboard', loginCheck(), (req,res,next) => {
   let sameUserCheck = true;
-  const loggedInUser = req.user;
-  res.render('dashboard', {loggedInUser, sameUserCheck})
+  User.findById(req.user.id).populate('games')
+  .then(loggedInUser => {
+    res.render('dashboard', {loggedInUser, sameUserCheck})
+  })
 })
 
 router.get('/dashboard/:id', (req,res,next) => {
@@ -19,7 +29,7 @@ router.get('/dashboard/:id', (req,res,next) => {
   if (req.user && req.user.id === userId) {
     sameUserCheck = true
   }
-  User.findById(userId)
+  User.findById(userId).populate('games')
   .then(loggedInUser => res.render('dashboard', {loggedInUser, sameUserCheck}))
   .catch(err => console.log(err))
 })

@@ -4,7 +4,11 @@
 <img src="{{posterUrl}}" alt="Image of {{name}}">
 <p>Game developed by - {{name}}</p>
 <p>Description: {{description}}</p>
-<a href="/games/{{_id}}/edit">Edit the Game</a>
+{{/with}}
+{{#if sameUserCheck}}
+<a href="/games/{{gameDetail._id}}/edit">Edit the Game</a>
+{{/if}}
+{{#with gameDetail}}
 <form action="/games/{{_id}}" method="POST">
     <label for="review">Give a review 😎 </label>
     <input type="text" name="review" id="review">

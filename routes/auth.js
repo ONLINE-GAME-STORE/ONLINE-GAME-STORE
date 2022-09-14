@@ -14,26 +14,30 @@ router.get("/signup", ifLoggedInRedirectToDash(), (req, res, next) => {
 
 router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
   const { username, password, githubLink } = req.body;
-  const profilePic = req.file.originalname;
-  const profilePicPath = req.file.path;
+	let profilePicInfo = {};
+	if (req.file) {
+		profilePicInfo.profilePic = req.file.originalname
+		profilePicInfo.profilePicPath = req.file.path
+	}
+	console.log(profilePicInfo)
+  // const profilePic = req.file.originalname;
+  // const profilePicPath = req.file.path;
 
-  // ADD HERE SOME PASSWORD VALIDATION LATER
-  // is the password + 4 chars
-  // if (password.length < 4) {
-  // 	res.render('signup', { message: 'Your password needs to be min 4 chars' })
-  // 	return
-  // }
-  // if (username.length === 0) {
-  // 	res.render('signup', { message: 'Your username cannot be empty' })
-  // 	return
-  // }
-  // validation passed
-  // do we already have a user with that username in the db?
+	const errorMessage = []
+	if (password.length < 6) {
+		errorMessage.push('Your password must be at least 6 characters')
+	}
+	if (username.length < 6) {
+		errorMessage.push('Your username must be at least 6 characters')
+	}
+	if (errorMessage.length > 0) {
+		return res.render('auth/signup', {errorMessage})
+	}
 
   User.findOne({ username: username })
     .then((userFromDB) => {
       if (userFromDB !== null) {
-        res.render("signup", { message: "Username is already taken" });
+        res.render("auth/signup", { message: "Username is already taken" });
       } else {
         // we can use that username
         // and hash the password
@@ -44,8 +48,7 @@ router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
           username,
           password: hash,
           githubLink,
-          profilePic,
-          profilePicPath,
+          ...profilePicInfo
         })
           .then((createdUser) => {
             console.log(createdUser);
