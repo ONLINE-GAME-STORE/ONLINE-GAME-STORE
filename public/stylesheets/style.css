@@ -92,8 +92,29 @@ body {
   position: relative;
   padding: 20px 60px;
   flex-wrap: wrap;
+  gap:15px;
 }
 
+@media only screen and (max-width: 750px)  {
+  .main-nav {
+    justify-content: space-around;
+  }
+}
+
+.main-nav form {
+  width: 30%;
+  padding: 0;
+  min-width: 180px;
+}
+.main-nav form input {
+  width: 100%;
+  background-color: var(--background-color-300);
+  border: 0;
+  color: var(--text-color);
+  height: 2em;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
 
 .sub-nav {
   display: flex;
@@ -119,12 +140,13 @@ body {
   isolation: isolate;
 }
 
-.main-container::after {
+
+/* .main-container::after {
   content: "";  z-index: -1;
   position:absolute;
   inset: 0;
   opacity: 1;
-  }
+  } */
 
 
 
@@ -182,6 +204,8 @@ body {
   align-items: center;
 }
 
+
+
 /* LOGIN AND SIGN UP PAGE STYLES */
 
 .login-holder {
@@ -236,15 +260,18 @@ body {
 .game-card {
   display:flex;
   flex-direction: column;
-  height: 200px;
-  width: 150px;
+  max-height: 20%;
+  width: 15%;
+  min-width: 120px;
   justify-content: space-between;
   align-items: center;
   border: 1px solid white;
-  padding: 0 0 5px 0;
+  padding: 0 0 2px 0;
   overflow:hidden;
-
 }
 .game-card img {
   height: 180px;
+}
+.game-card h4 {
+  text-align: center;
 }
