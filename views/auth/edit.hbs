@@ -1,9 +1,9 @@
 <h1>hello from profile edit page</h1>
 
 {{#with loggedInUser}}
-
+{{#if profilePicPath}}
 <img src="{{profilePicPath}}" alt="profile picture">
-
+{{/if}}
 <form action="/auth/edit/{{_id}}" method="post" enctype="multipart/form-data">
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" value="{{username}}">

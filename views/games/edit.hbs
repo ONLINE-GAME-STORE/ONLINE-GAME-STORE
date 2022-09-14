@@ -1,6 +1,7 @@
 <h1>hello from EDIT page</h1>
 
 {{#with game}}
+
 <img src="{{posterUrl}}" alt="game poster">
 <form action="/games/{{id}}/edit" method="post" enctype="multipart/form-data">
     <label for="name">Name</label>
