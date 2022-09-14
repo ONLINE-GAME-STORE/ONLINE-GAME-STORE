@@ -320,7 +320,6 @@ button {
   text-align: center;
 }
 
-<<<<<<< HEAD
 /* STAR RATING  */
 *{
   margin: 0;
@@ -363,7 +362,6 @@ button {
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
-=======
 /* GAMES DETAILS */
 
 .game-details-holder {
@@ -412,4 +410,3 @@ button {
 .review-form textarea::selection {
   border: 3px solid var(--accent-color)
 }
->>>>>>> main
