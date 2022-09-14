@@ -19,7 +19,6 @@ router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
 		profilePicInfo.profilePic = req.file.originalname
 		profilePicInfo.profilePicPath = req.file.path
 	}
-	console.log(profilePicInfo)
   // const profilePic = req.file.originalname;
   // const profilePicPath = req.file.path;
 
@@ -51,7 +50,6 @@ router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
           ...profilePicInfo
         })
           .then((createdUser) => {
-            console.log(createdUser);
             // if we want to log the user in using passport
             // req.login()
             res.redirect("/auth/login");
@@ -121,10 +119,8 @@ router.post(
           res.redirect("/auth/edit/" + req.user._id);
         }
       }
-      console.log(req.body);
       User.findByIdAndUpdate(userId, { ...newInfo }, { new: true })
         .then((updatedProfile) => {
-          console.log(updatedProfile);
           // setting the session user as the updatedProfile
           // ONLY IF SOME BUGS APPEAR
           // req.user = updatedProfile; <=== THIS DOESNT WORK THO
