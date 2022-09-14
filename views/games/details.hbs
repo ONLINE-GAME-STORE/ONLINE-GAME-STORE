@@ -1,35 +1,39 @@
-{{!-- GAME DETAILS --}}
-{{#with gameDetail}}
-<h1>{{name}}</h1>
-<img src="{{posterUrl}}" alt="Image of {{name}}">
-<p>Game developed by - {{name}}</p>
-<p>Description: {{description}}</p>
-{{/with}}
-{{#if sameUserCheck}}
-<a href="/games/{{gameDetail._id}}/edit">Edit the Game</a>
-{{/if}}
-{{#with gameDetail}}
-<form action="/games/{{_id}}" method="POST">
-    <label for="review">Give a review 😎 </label>
-    <input type="text" name="review" id="review">
-    <button type="submit">Submit</button>
-</form> 
-{{/with}}
-{{!-- FIVE REVIEWS --}}
-{{#each fiveReviews}}
-<div>
-    <p>{{this.user.username}}:</p>
-<br>
-{{this.text}}
-</div>
-{{/each}}
+{{! GAME DETAILS }}
+<div class="game-details-holder">
 
-{{!-- BUTTON FOR ALL REVIEWS --}}
-{{#with gameDetail}}
-<div>
-    <form action="/games/{{_id}}/reviews" method="get">
-        {{!-- <label for="reviewsList">Read more Reviews ⭐️</label> --}}
-        <button type="submit">Read more Reviews ⭐️</button>
+  {{#with gameDetail}}
+    <h1>{{name}}</h1>
+    <img src="{{posterUrl}}" alt="Image of {{name}}" />
+    <p>Game developed by - {{name}}</p>
+    <p>Description: {{description}}</p>
+  {{/with}}
+  {{#if sameUserCheck}}
+    <a class="button" href="/games/{{gameDetail._id}}/edit">Edit the Game</a>
+  {{/if}}
+  {{#with gameDetail}}
+    <form class="review-form" action="/games/{{_id}}" method="POST">
+      <label for="review">Leave a review: </label>
+      <textarea  name="review" id="review"> </textarea> 
+      <button class="button" type="submit">Submit</button>
     </form>
-</div>
+  {{/with}}
+  {{! FIVE REVIEWS }}
+  {{#each fiveReviews}}
+  <div class="single-review">
+
+      <p>{{this.user.username}}:</p>
+
+      <p>{{this.text}}</p>
+  </div>
+  {{/each}}
+
+{{! BUTTON FOR ALL REVIEWS }}
+{{#with gameDetail}}
+  <div>
+    <form action="/games/{{_id}}/reviews" method="get">
+      {{! <label for="reviewsList">Read more Reviews ⭐️</label> }}
+      <button class="button" type="submit">Read more Reviews ⭐️</button>
+    </form>
+  </div>
 {{/with}}
+</div>
