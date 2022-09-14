@@ -187,10 +187,40 @@ router.get("/:id", (req, res, next) => {
 router.post("/:id", (req, res, next) => {
 	const id = req.params.id
 	const review = req.body.review 
+  const valueRating = req.body.rate 
 	const user = req.user
-	Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review}}})
+	Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review, rating: valueRating}}})
 	.then(gameFromDB => {
 		res.redirect(id) 
+	})
+	.catch(err => (err))
+})
+
+// STAR RATING POST 
+router.post("/:id/star-rating", (req, res, next) => {
+  const id = req.params.id
+  const valueRating = req.body.rate 
+  const user = req.user 
+  Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, rating: valueRating}}})
+  .then(star => {
+    res.redirect(id)
+  })
+  .catch(err =>(err))
+})
+
+router.get("/:id/star-rating", (req, res, next) => {
+  // res.send("hello") 
+  const id = req.params.id 
+	Game.findById(id)
+	.populate({
+		path: "rating",
+		populate: {
+			path: "user"
+		}
+	})
+	.then (ratingFromDB => {
+    const reviews = ratingFromDB.reviews.map(review => review.rating)
+		res.render("games/star-rating", { gameStarRating: reviews})
 	})
 	.catch(err => (err))
 })
