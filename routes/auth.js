@@ -14,8 +14,14 @@ router.get("/signup", ifLoggedInRedirectToDash(), (req, res, next) => {
 
 router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
   const { username, password, githubLink } = req.body;
-  const profilePic = req.file.originalname;
-  const profilePicPath = req.file.path;
+	let profilePicInfo = {};
+	if (req.file) {
+		profilePicInfo.profilePic = req.file.originalname
+		profilePicInfo.profilePicPath = req.file.path
+	}
+	console.log(profilePicInfo)
+  // const profilePic = req.file.originalname;
+  // const profilePicPath = req.file.path;
 
 	const errorMessage = []
 	if (password.length < 6) {
@@ -42,8 +48,7 @@ router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
           username,
           password: hash,
           githubLink,
-          profilePic,
-          profilePicPath,
+          ...profilePicInfo
         })
           .then((createdUser) => {
             console.log(createdUser);
