@@ -6,6 +6,7 @@ const {
 } = require("../utils/authenticatorFuncitions");
 const uploader = require("../config/cloudinary");
 const User = require("../models/User");
+const { populate } = require("../models/Game");
 
 // GAME INDEX (LIBRARY)
 router.get("/", (req, res, next) => {
@@ -155,20 +156,27 @@ router.get("/:id/reviews", (req, res, next) => {
 router.get("/:id", (req, res, next) => {
 	const id = req.params.id 
 	const loggedInUserId = req.user.id
+  // const averageRating = req.user.rating
 	let sameUserCheck = false
 	Game.findById(id)
 	.populate('userAdded')
 	// REVIEWS -> showing only Username (who wrote the review) and the review 
+  // .populate({
+  //   path: "rating"
+  // })
 	.populate({
 		path: "reviews",
 		// options: {
 			// 	limit: 5
 			// },
 			populate: {
-				path: "user",
+				path: "user"
 				// options: {
 					// 	limit: 5 
 					// }
+          // populate: {
+          //   rating: "user"
+          // }
 				}
 			})
 			.then(gameFromDB => {
@@ -177,8 +185,32 @@ router.get("/:id", (req, res, next) => {
 				if (gameFromDB.userAdded.id === loggedInUserId) {
 					sameUserCheck = true
 				}
+        // AVERAGE FUCKING RATING AND ITS PISSING ME OF 
+
 				const fiveReviews = gameFromDB.reviews.slice(0, 5)
-				res.render("games/details", {gameDetail: gameFromDB, fiveReviews,sameUserCheck})
+        let allRatings = gameFromDB.reviews.map(objc => objc.rating)
+        let averageRating; 
+        let sum = 0;
+        for (let number of allRatings) {
+            sum += number;
+        }
+        averageRating = Math.floor(sum / allRatings.length)
+        // console.log(averageRating)
+        // IF CONDITION FOR STARS (AVERAGE RATING)
+        let averageRatingStar; 
+        if(averageRating === 1){
+          averageRatingStar = "⭐️"
+        } else if (averageRating === 2){
+          averageRatingStar = "⭐️⭐️"
+        } else if (averageRating === 3){
+          averageRatingStar = "⭐️⭐️⭐️"
+        } else  if (averageRating === 4){
+          averageRatingStar = "⭐️⭐️⭐️⭐️"
+        } else {
+          averageRatingStar = "⭐️⭐️⭐️⭐️⭐️"
+        }
+
+        res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck, averageRatingStar})
 			})
 			.catch(err => (err))
 		})
