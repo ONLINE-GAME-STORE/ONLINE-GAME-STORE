@@ -267,21 +267,33 @@ button {
 .login-form input {
   background-color: var(--footer-color);
   color: var(--main-font);
-  border: 0;
-
+  border: 3px solid var(--background-color-300);
+  height: 25px;
+  outline: none;
 }
+.login-form input:hover,
+.login-form input:focus,
+.login-form input:active {
+  color: var(--accent-color);
+  border: 3px solid var(--accent-color)
+}
+
 .login-form label {
   text-align: center;
 }
 
 .auth-button {
   margin-top: 20px;
-  background-color: var(--footer-color);
-  border: 0;
-  padding: 10px 0;
   color: var(--text-color)
 }
 
+
+
+.signup-link:hover,
+.signup-link:active,
+.signup-link:focus {
+  color: var(--accent-color);
+}
 /* GAMES INDEX */
 
 .games-container {
@@ -297,7 +309,7 @@ button {
   display:flex;
   flex-direction: column;
   height: 220px;
-  width: 20%;
+  width: 150px;
   min-width: 160px;
   justify-content: space-between;
   align-items: center;
@@ -307,6 +319,7 @@ button {
   transition: border 0.2s;
   transition: color 0.2s;
 }
+
 .game-card:hover {
   color: var(--accent-color);
   border: 3px solid var(--accent-color)
@@ -452,4 +465,13 @@ button {
 .image-upload-input:focus {
   color: var(--accent-color);
   border: 3px solid var(--accent-color)
+}
+
+.image-uploader{
+  cursor: pointer;
+}
+.image-uploader:hover,
+.image-uploader:focus {
+  color: var(--accent-color);
+  
 }
