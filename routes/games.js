@@ -177,9 +177,8 @@ router.get("/:id", (req, res, next) => {
 				if (gameFromDB.userAdded.id === loggedInUserId) {
 					sameUserCheck = true
 				}
-				console.log(sameUserCheck)
 				const fiveReviews = gameFromDB.reviews.slice(0, 5)
-				res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck})
+				res.render("games/details", {gameDetail: gameFromDB, fiveReviews,sameUserCheck})
 			})
 			.catch(err => (err))
 		})

@@ -6,7 +6,7 @@
 <p>Description: {{description}}</p>
 {{/with}}
 {{#if sameUserCheck}}
-<a href="/games/{{_id}}/edit">Edit the Game</a>
+<a href="/games/{{gameDetail._id}}/edit">Edit the Game</a>
 {{/if}}
 {{#with gameDetail}}
 <form action="/games/{{_id}}" method="POST">
