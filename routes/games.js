@@ -13,7 +13,6 @@ router.get("/", (req, res, next) => {
 //   res.send("Game-Library");
   Game.find()
 .then(gameFromDB => {
-	console.log(gameFromDB)
 	res.render("games/index", {gameList: gameFromDB})
 })
 .catch(err => next(err))
@@ -32,7 +31,10 @@ router.post(
   (req, res, next) => {
     const loggedInUserId = req.user.id;
     const { name, author, description, gameLink } = req.body;
-    const posterUrl = req.file.path;
+		let posterUrl;
+		if (req.file) {
+			posterUrl = req.file.path
+		}
     Game.create({
       name,
       author,
@@ -42,13 +44,11 @@ router.post(
       userAdded: loggedInUserId,
     })
       .then((newGame) => {
-				console.log(newGame)
 				return User.findByIdAndUpdate(loggedInUserId, {
 					$push : {games : newGame.id}
 					
 				}, {new:true})
 				.then(updatedUser => {
-					console.log(updatedUser)
 					res.redirect("/games/" + newGame.id);
 				})
 				.catch((err) => console.log(err))
@@ -115,7 +115,6 @@ router.post(
           } else {
             newObj.posterUrl = game.posterUrl;
           }
-					console.log(newObj)
           Game.findByIdAndUpdate(
             gameId,
             {
@@ -124,7 +123,6 @@ router.post(
             { new: true }
           )
             .then((updatedGame) => {
-              console.log(updatedGame);
               res.redirect("/games/" + gameId);
             })
             .catch((err) => console.log(err));
@@ -180,12 +178,10 @@ router.get("/:id", (req, res, next) => {
 				}
 			})
 			.then(gameFromDB => {
-				console.log(gameFromDB.userAdded.id)
-				console.log(loggedInUserId)
 				if (gameFromDB.userAdded.id === loggedInUserId) {
 					sameUserCheck = true
 				}
-        // AVERAGE FUCKING RATING AND ITS PISSING ME OF 
+        
 
 				const fiveReviews = gameFromDB.reviews.slice(0, 5)
         let allRatings = gameFromDB.reviews.map(objc => objc.rating)
@@ -195,7 +191,7 @@ router.get("/:id", (req, res, next) => {
             sum += number;
         }
         averageRating = Math.floor(sum / allRatings.length)
-        // console.log(averageRating)
+        
         // IF CONDITION FOR STARS (AVERAGE RATING)
         let averageRatingStar; 
         if(averageRating === 1){
@@ -209,12 +205,32 @@ router.get("/:id", (req, res, next) => {
         } else {
           averageRatingStar = "⭐️⭐️⭐️⭐️⭐️"
         }
-
         res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck, averageRatingStar})
 			})
 			.catch(err => (err))
 		})
 		
+router.get("/:id/delete", loginCheck(), (req,res,next) => {
+	const id = req.params.id;
+	const loggedInUserId = req.user.id;
+	Game.findOne({id : id}).populate('userAdded')
+	.then(foundGame => {
+		if (foundGame.userAdded.id === loggedInUserId) {
+			Game.findByIdAndDelete(id)
+			.then(deletedGame => {
+				res.redirect('/dashboard')
+			})
+			.catch(err => console.log(err))
+		} else {
+			res.redirect('/')
+		}
+	})
+	.catch(err => console.log(err))
+})
+
+
+
+
 // REVIEW POST -> Uploading review to the DB 
 router.post("/:id", (req, res, next) => {
 	const id = req.params.id
