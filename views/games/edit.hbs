@@ -1,17 +1,18 @@
-<h1>hello from EDIT page</h1>
 
 {{#with game}}
 
 <img src="{{posterUrl}}" alt="game poster">
-<form action="/games/{{id}}/edit" method="post" enctype="multipart/form-data">
+<form class="edit-game-form" action="/games/{{id}}/edit" method="post" enctype="multipart/form-data">
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="{{name}}">
 
     <label for="author">Author</label>
     <input type="text" name="author" id="author" value="{{author}}">
 
-    <label for="posterUrl">Poster</label>
-    <input type="file" name="posterUrl" id="posterUrl" >
+    <label class="image-upload-input" for="posterUrl">
+    <input type="file" name="posterUrl" id="posterUrl" hidden>
+    Poster
+    </label>
 
     <label for="description">Description</label>
     <input type="description" name="description" id="description" value="{{description}}">
@@ -19,7 +20,7 @@
     <label for="gameLink">Link</label>
     <input type="gameLink" name="gameLink" id="gameLink" value="{{gameLink}}">
 
-    <button type="submit">Edit game</button>
+    <button class="button" type="submit">Edit game</button>
 </form>
 
 {{/with}}

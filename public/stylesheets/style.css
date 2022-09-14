@@ -119,8 +119,7 @@ body {
 }
 .main-nav form input:hover,
 .main-nav form input::selection,
-.main-nav form input:focus,
-main-nav {
+.main-nav form input:focus {
   border: 3px solid var(--accent-color)
 }
 
@@ -331,7 +330,7 @@ button {
   padding: 0 10px;
 }
 .rate:not(:checked) > input {
-  position:absolute;
+  position:fixed;
   top:-9999px;
 }
 .rate:not(:checked) > label {
@@ -369,7 +368,7 @@ button {
   flex-direction: column;
   gap:20px;
   align-items: center;
-
+  width: 80%;
 }
 .game-details-holder img {
   height: auto;
@@ -408,5 +407,49 @@ button {
 .review-form textarea:focus,
 .review-form textarea:hover,
 .review-form textarea::selection {
+  border: 3px solid var(--accent-color)
+}
+
+
+/* EDIT GAME STYLING */
+
+.edit-game-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+}
+.edit-game-form input {
+  width: 100%;
+  background-color: var(--background-color-300);
+  border: 3px solid var(--background-color-300);
+  color: var(--text-color);
+  height: 2em;
+  padding: 0 10px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.edit-game-form input:hover,
+.edit-game-form input:focus {
+  border: 3px solid var(--accent-color)
+}
+
+.image-upload-input {
+  border: 3px solid var(--background-color-300);
+  background-color: var(--background-color-500);
+  padding:10px 50px;
+  width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.2s;
+  transition: border 0.2s;
+}
+
+.image-upload-input:hover,
+.image-upload-input:focus {
+  color: var(--accent-color);
   border: 3px solid var(--accent-color)
 }
