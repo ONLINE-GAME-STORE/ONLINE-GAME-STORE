@@ -21,7 +21,7 @@ router.get("/", (req, res, next) => {
 
 // should be protected route
 router.get("/add", loginCheck(), (req, res, next) => {
-  res.render("Games/add");
+  res.render("games/add");
 });
 
 router.post(
