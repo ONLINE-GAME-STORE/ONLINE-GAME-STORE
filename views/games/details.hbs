@@ -5,7 +5,8 @@
   {{#with gameDetail}}
     <h1>{{name}}</h1>
     <img src="{{posterUrl}}" alt="Image of {{name}}" />
-    <p>Game developed by - {{name}}</p>
+    <p>Game developed by - {{userAdded.username}}</p>
+    <p>Added by - <a class="profile-link" href="/dashboard/{{userAdded.id}}">{{userAdded.username}}</a></p>
     <p>Description: {{description}}</p>
   {{/with}}
   {{#if sameUserCheck}}
@@ -42,11 +43,12 @@
   {{#each fiveReviews}}
   <div class="single-review">
 
-      <p>{{this.user.username}}:</p>
-        <p class="rating-stars">{{this.rating}}</p>
-      <p>{{this.text}}</p>
+      <div class="name-box">
 
-      <p>{{this.rating}}</p>
+        <p>{{this.user.username}}:</p>
+        <p class="rating-stars">{{this.rating}}</p>
+      </div>
+      <p>{{this.text}}</p>
 
   </div>
   {{/each}}
