@@ -393,10 +393,13 @@ button {
 }
 .game-details-holder img {
   height: auto;
-  width: 50%;
+  width: 30%;
 }
 .description {
+  text-align: left;
+  text-justify: newspaper;
   width: 70%;
+  line-height: 1.2;
 }
 
 .single-review {
@@ -530,5 +533,9 @@ button {
   }
   .search-bar {
     order:1
+  }
+  .game-details-holder img {
+    height: auto;
+    width: 50%;
   }
 }
