@@ -5,7 +5,7 @@ router.get("/", (req, res, next) => {
   const query = req.query.q;
   Game.find( { name : { '$regex' : query, '$options' : 'i' } } )
     .then((foundGames) => {
-      res.render('search', {foundGames});
+      res.render('search', {foundGames, query});
     })
     .catch((err) => console.log(err));
 });

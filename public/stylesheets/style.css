@@ -71,6 +71,7 @@ h3 {
   --accent-color: rgb(135, 157, 9);
   --text-color: rgb(255, 255, 255);
   --main-font: 'Roboto', sans-serif;
+  --title-font: 'Teko', sans-serif;
 }
 
 body {
@@ -124,6 +125,8 @@ body {
   list-style: none;
   margin: 0 10px;
   padding: 0;
+  font-family: var(--title-font);
+  font-size: 1.5em;
 }
 .sub-nav li a {
   text-decoration: none;
@@ -183,6 +186,7 @@ body {
 .profile-pic {
   max-width: clamp(100px,40%,200px);
   height: auto;
+  margin-bottom: 20px;
 }
 
 .github-link img {
@@ -199,6 +203,10 @@ body {
 }
 
 /* INDEX PAGE STYLING */
+.logo {
+  font-family: var(--title-font);
+  font-size: 3em;
+}
 .logo:hover,
 .logo:focus,
 .logo:active {
@@ -494,7 +502,6 @@ button {
 .image-uploader:hover,
 .image-uploader:focus {
   color: var(--accent-color);
-  
 }
 
 .profile-link{
@@ -507,6 +514,8 @@ button {
 }
 .page-title {
   margin-bottom: 20px;
+  font-family: var(--title-font);
+  font-size: 3em;
 }
 
 @media only screen and (max-width: 750px)  {
@@ -518,5 +527,8 @@ button {
   }
   .edit-game-form {
     width: 80%;
+  }
+  .search-bar {
+    order:1
   }
 }
