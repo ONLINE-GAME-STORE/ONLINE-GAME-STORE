@@ -405,6 +405,7 @@ button {
   line-height: 1.2;
 }
 
+
 .single-review {
   display: flex;
   flex-direction: column;
@@ -486,6 +487,12 @@ button {
   border: 3px solid var(--background-color-300);
   background-color: var(--background-color-500);
   transition: border 0.2s;
+}
+
+.edit-game-form textarea:hover,
+.edit-game-form textarea:active,
+.edit-game-form textarea:focus {
+  border: 3px solid var(--accent-color)
 }
 
 .image-upload-input {
