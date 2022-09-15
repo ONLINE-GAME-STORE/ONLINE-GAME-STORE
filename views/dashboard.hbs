@@ -1,9 +1,9 @@
-<h1>Dashboard</h1>
+<h1 class="page-title">Dashboard</h1>
 
 <div class="profile-holder">
     {{#with loggedInUser}}
     {{#if profilePicPath}}
-    <img class="profile-pic"src="{{profilePicPath}}" alt="profile picture">
+    <img class="profile-pic" src="{{profilePicPath}}" alt="profile picture">
     {{/if}}
     <h3>{{username}}</h3>
     <a class="github-link"href="{{githubLink}}"><img src="/images/github2.png" alt="github logo"></a>

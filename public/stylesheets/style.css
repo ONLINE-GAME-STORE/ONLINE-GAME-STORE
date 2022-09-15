@@ -71,6 +71,7 @@ h3 {
   --accent-color: rgb(135, 157, 9);
   --text-color: rgb(255, 255, 255);
   --main-font: 'Roboto', sans-serif;
+  --title-font: 'Teko', sans-serif;
 }
 
 body {
@@ -94,18 +95,12 @@ body {
   flex-wrap: wrap;
   gap:15px;
 }
-
-@media only screen and (max-width: 750px)  {
-  .main-nav {
-    justify-content: space-around;
-  }
-}
-
-.main-nav form {
+.search-bar {
   width: 30%;
   padding: 0;
   min-width: 180px;
 }
+
 .main-nav form input {
   width: 100%;
   background-color: var(--background-color-300);
@@ -130,6 +125,8 @@ body {
   list-style: none;
   margin: 0 10px;
   padding: 0;
+  font-family: var(--title-font);
+  font-size: 1.5em;
 }
 .sub-nav li a {
   text-decoration: none;
@@ -189,6 +186,7 @@ body {
 .profile-pic {
   max-width: clamp(100px,40%,200px);
   height: auto;
+  margin-bottom: 20px;
 }
 
 .github-link img {
@@ -205,6 +203,16 @@ body {
 }
 
 /* INDEX PAGE STYLING */
+.logo {
+  font-family: var(--title-font);
+  font-size: 3em;
+}
+.logo:hover,
+.logo:focus,
+.logo:active {
+  color: var(--accent-color);
+  transition: color, 0.2s;
+}
 
 .button-holder {
   display: flex;
@@ -275,7 +283,6 @@ button {
 .login-form input:hover,
 .login-form input:focus,
 .login-form input:active {
-  color: var(--accent-color);
   border: 3px solid var(--accent-color)
 }
 
@@ -388,6 +395,9 @@ button {
   height: auto;
   width: 50%;
 }
+.description {
+  width: 70%;
+}
 
 .single-review {
   display: flex;
@@ -436,11 +446,12 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap:10px;
+  gap:15px;
+  width: 50%;
 }
 .edit-game-form input {
-  width: 100%;
-  background-color: var(--background-color-300);
+  width: 50%;
+  background-color: var(--footer-color);
   border: 3px solid var(--background-color-300);
   color: var(--text-color);
   height: 2em;
@@ -453,6 +464,18 @@ button {
 .edit-game-form input:hover,
 .edit-game-form input:focus {
   border: 3px solid var(--accent-color)
+}
+
+.edit-game-form textarea {
+  height: 100px;
+  text-align: left;
+  resize: none;
+  width: 80%;
+  outline:0;
+  color:var(--text-color);
+  border: 3px solid var(--background-color-300);
+  background-color: var(--background-color-500);
+  transition: border 0.2s;
 }
 
 .image-upload-input {
@@ -479,7 +502,6 @@ button {
 .image-uploader:hover,
 .image-uploader:focus {
   color: var(--accent-color);
-  
 }
 
 .profile-link{
@@ -489,4 +511,24 @@ button {
 .profile-link:focus {
   color: var(--accent-color);
   
+}
+.page-title {
+  margin-bottom: 20px;
+  font-family: var(--title-font);
+  font-size: 3em;
+}
+
+@media only screen and (max-width: 750px)  {
+  .main-nav {
+    justify-content: space-around;
+  }
+  .single-review {
+    width: 80%;
+  }
+  .edit-game-form {
+    width: 80%;
+  }
+  .search-bar {
+    order:1
+  }
 }
