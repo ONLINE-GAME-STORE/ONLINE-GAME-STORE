@@ -7,7 +7,7 @@
     <img src="{{posterUrl}}" alt="Image of {{name}}" />
     <p>Game developed by - {{userAdded.username}}</p>
     <p>Added by - <a class="profile-link" href="/dashboard/{{userAdded.id}}">{{userAdded.username}}</a></p>
-    <p>Description: {{description}}</p>
+    <p class="description">Description: {{description}}</p>
   {{/with}}
   {{#if sameUserCheck}}
     <a class="button" href="/games/{{gameDetail._id}}/edit">Edit game</a>
