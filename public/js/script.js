@@ -15,4 +15,3 @@ for (let ratingBox of starRating) {
   }
   ratingBox.innerHTML = rating
 }
-console.log(starRating)
