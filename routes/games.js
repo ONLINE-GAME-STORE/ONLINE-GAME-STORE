@@ -184,27 +184,17 @@ router.get("/:id", (req, res, next) => {
         
 
 				const fiveReviews = gameFromDB.reviews.slice(0, 5)
-        let allRatings = gameFromDB.reviews.map(objc => objc.rating)
+        let allRatings = gameFromDB.reviews.map(objc => objc.rating).filter(a => a !== undefined)
         let averageRating; 
         let sum = 0;
         for (let number of allRatings) {
             sum += number;
         }
         averageRating = Math.floor(sum / allRatings.length)
-        
-        // IF CONDITION FOR STARS (AVERAGE RATING)
-        let averageRatingStar; 
-        if(averageRating === 1){
-          averageRatingStar = "⭐️"
-        } else if (averageRating === 2){
-          averageRatingStar = "⭐️⭐️"
-        } else if (averageRating === 3){
-          averageRatingStar = "⭐️⭐️⭐️"
-        } else  if (averageRating === 4){
-          averageRatingStar = "⭐️⭐️⭐️⭐️"
-        } else {
-          averageRatingStar = "⭐️⭐️⭐️⭐️⭐️"
-        }
+        let averageRatingStar = ""; 
+				for (i = 0; i< averageRating; i++) {
+					averageRatingStar += "⭐️"
+				}
         res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck, averageRatingStar})
 			})
 			.catch(err => (err))

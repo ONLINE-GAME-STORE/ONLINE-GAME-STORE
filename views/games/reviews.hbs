@@ -1,10 +1,12 @@
 {{!-- ALL REVIEWS FOR THE CHOSEN GAME --}}
 {{#with gameReviews}}
-<h1>Reviews of the Game: {{name}} ⭐️</h1>
+<h1>Reviews for: {{name}}</h1>
 {{#each reviews}}
-<div>
-    <p>{{this.user.username}}:</p>
-    <br>
+<div class="single-review">
+    <div class="name-box">
+        <p>{{this.user.username}}:</p>
+        <p class="rating-stars">{{this.rating}}</p>
+    </div>
     <p>{{this.text}}</p>
 </div>
 {{/each}}

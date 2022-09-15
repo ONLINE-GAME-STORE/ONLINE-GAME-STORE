@@ -163,6 +163,7 @@ body {
 
 
 
+
 .profile-holder {
   display: flex;
   flex-direction: column;
@@ -394,9 +395,14 @@ button {
   align-items: flex-start;
   padding: 10px;
   width: 40%;
-  gap:5px;
+  gap:10px;
   border: 1px solid var(--background-color-300);
   border-radius: 10px;
+}
+.name-box {
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
 }
 
 .review-form {
@@ -472,6 +478,15 @@ button {
 }
 .image-uploader:hover,
 .image-uploader:focus {
+  color: var(--accent-color);
+  
+}
+
+.profile-link{
+  cursor: pointer;
+}
+.profile-link:hover,
+.profile-link:focus {
   color: var(--accent-color);
   
 }
