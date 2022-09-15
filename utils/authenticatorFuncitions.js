@@ -19,13 +19,13 @@ function loginCheck() {
 // Use to protect routes that should be accessible only if there's no logged in user
 
 function ifLoggedInRedirectToDash() {
-  return (req,res,next) => {
+  return (req, res, next) => {
     if (req.user === undefined) {
-      next()
+      next();
     } else {
-      res.redirect('/dashboard/' + req.user._id)
+      res.redirect("/dashboard/" + req.user._id);
     }
-  }
+  };
 }
 
-module.exports =  {loginCheck, ifLoggedInRedirectToDash}
+module.exports = { loginCheck, ifLoggedInRedirectToDash };
