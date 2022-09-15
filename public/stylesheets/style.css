@@ -199,7 +199,7 @@ body {
   padding: 3px;
   height: 30px;
   text-align: center;
-  /* background-color: var(--footer-color); */
+
 }
 
 /* INDEX PAGE STYLING */
@@ -257,7 +257,7 @@ button {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 300px;
+  gap:20px;
   border: 1px solid var(--background-color-300);
   padding: 30px 50px;
 }
@@ -271,6 +271,9 @@ button {
   flex-direction: column;
   width: 200px;
   gap:10px;
+}
+.error-msg {
+  color: #ff0101a1
 }
 
 .login-form input {
@@ -398,7 +401,7 @@ button {
 .description {
   text-align: left;
   text-justify: newspaper;
-  width: 70%;
+  width: 60%;
   line-height: 1.2;
 }
 
@@ -468,6 +471,10 @@ button {
 .edit-game-form input:focus {
   border: 3px solid var(--accent-color)
 }
+.edit-game-view-img {
+  width: 30%;
+  margin-bottom: 20px;
+}
 
 .edit-game-form textarea {
   height: 100px;
@@ -536,6 +543,12 @@ button {
   }
   .game-details-holder img {
     height: auto;
+    width: 50%;
+  }
+  .description {
+    width: 80%;
+  }
+  .edit-game-view-img {
     width: 50%;
   }
 }
