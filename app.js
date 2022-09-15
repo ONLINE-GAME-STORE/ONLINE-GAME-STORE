@@ -93,7 +93,7 @@ passport.use(
       // careful what you put here everything should match
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: "http://localhost:3000/auth/github/callback",
+      callbackURL: "https://irongames.cyclic.app/auth/github/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile);
