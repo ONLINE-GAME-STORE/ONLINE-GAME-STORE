@@ -40,7 +40,6 @@
     <p>{{this.rating}}</p>
   {{/each}} --}}
 
-  {{! FIVE REVIEWS }}
   {{#each fiveReviews}}
   <div class="single-review">
 
@@ -54,7 +53,6 @@
   </div>
   {{/each}}
 
-{{! BUTTON FOR ALL REVIEWS }}
 {{#with gameDetail}}
   <div>
     <form action="/games/{{_id}}/reviews" method="get">

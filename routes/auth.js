@@ -14,41 +14,38 @@ router.get("/signup", ifLoggedInRedirectToDash(), (req, res, next) => {
 
 router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
   const { username, password, githubLink } = req.body;
-	let profilePicInfo = {};
-	if (req.file) {
-		profilePicInfo.profilePic = req.file.originalname
-		profilePicInfo.profilePicPath = req.file.path
-	} else {
-		profilePicInfo.profilePic = 'placeholder'
-		profilePicInfo.profilePicPath = '/images/profile-placeholder.png'
-	}
+  let profilePicInfo = {};
+  if (req.file) {
+    profilePicInfo.profilePic = req.file.originalname;
+    profilePicInfo.profilePicPath = req.file.path;
+  } else {
+    profilePicInfo.profilePic = "placeholder";
+    profilePicInfo.profilePicPath = "/images/profile-placeholder.png";
+  }
 
-	const errorMessage = []
-	if (password.length < 6) {
-		errorMessage.push('Your password must be at least 6 characters')
-	}
-	if (username.length < 6) {
-		errorMessage.push('Your username must be at least 6 characters')
-	}
-	if (errorMessage.length > 0) {
-		return res.render('auth/signup', {errorMessage})
-	}
+  const errorMessage = [];
+  if (password.length < 6) {
+    errorMessage.push("Your password must be at least 6 characters");
+  }
+  if (username.length < 6) {
+    errorMessage.push("Your username must be at least 6 characters");
+  }
+  if (errorMessage.length > 0) {
+    return res.render("auth/signup", { errorMessage });
+  }
 
   User.findOne({ username: username })
     .then((userFromDB) => {
       if (userFromDB !== null) {
         res.render("auth/signup", { message: "Username is already taken" });
       } else {
-        // we can use that username
-        // and hash the password
         const salt = bcrypt.genSaltSync();
         const hash = bcrypt.hashSync(password, salt);
-        // create the user
         User.create({
           username,
           password: hash,
           githubLink,
-          ...profilePicInfo
+          ...profilePicInfo,
         })
           .then((createdUser) => {
             // if we want to log the user in using passport
@@ -73,8 +70,6 @@ router.post(
   })
 );
 
-//must be protected only the user himself can see this page
-//otherwise redirect
 router.get("/edit/:id", loginCheck(), (req, res, next) => {
   const userId = req.params.id;
   const loggedInUser = req.user;
@@ -122,10 +117,6 @@ router.post(
       }
       User.findByIdAndUpdate(userId, { ...newInfo }, { new: true })
         .then((updatedProfile) => {
-          // setting the session user as the updatedProfile
-          // ONLY IF SOME BUGS APPEAR
-          // req.user = updatedProfile; <=== THIS DOESNT WORK THO
-
           res.redirect("/dashboard");
         })
         .catch((err) => console.log(err));

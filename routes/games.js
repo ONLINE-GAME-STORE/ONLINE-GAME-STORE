@@ -7,20 +7,18 @@ const {
 const uploader = require("../config/cloudinary");
 const User = require("../models/User");
 const { populate } = require("../models/Game");
-const { default: mongoose } = require("mongoose"); 
+const { default: mongoose } = require("mongoose");
 
 // GAME INDEX (LIBRARY)
 router.get("/", (req, res, next) => {
-//   res.send("Game-Library");
+  //   res.send("Game-Library");
   Game.find()
-.then(gameFromDB => {
-	res.render("games/index", {gameList: gameFromDB})
-})
-.catch(err => next(err))
+    .then((gameFromDB) => {
+      res.render("games/index", { gameList: gameFromDB });
+    })
+    .catch((err) => next(err));
 });
 
-
-// should be protected route
 router.get("/add", loginCheck(), (req, res, next) => {
   res.render("games/add");
 });
@@ -32,12 +30,13 @@ router.post(
   (req, res, next) => {
     const loggedInUserId = req.user.id;
     const { name, author, description, gameLink } = req.body;
-		let posterUrl;
-		if (req.file) {
-			posterUrl = req.file.path
-		} else {
-			posterUrl = "https://images.unsplash.com/photo-1454117096348-e4abbeba002c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-		}
+    let posterUrl;
+    if (req.file) {
+      posterUrl = req.file.path;
+    } else {
+      posterUrl =
+        "https://images.unsplash.com/photo-1454117096348-e4abbeba002c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80";
+    }
     Game.create({
       name,
       author,
@@ -47,20 +46,21 @@ router.post(
       userAdded: loggedInUserId,
     })
       .then((newGame) => {
-				return User.findByIdAndUpdate(loggedInUserId, {
-					$push : {games : newGame.id}
-					
-				}, {new:true})
-				.then(updatedUser => {
-					res.redirect("/games/" + newGame.id);
-				})
-				.catch((err) => console.log(err))
+        return User.findByIdAndUpdate(
+          loggedInUserId,
+          {
+            $push: { games: newGame.id },
+          },
+          { new: true }
+        )
+          .then((updatedUser) => {
+            res.redirect("/games/" + newGame.id);
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
 );
-
-// protected route only for user who added the game
 
 router.get("/:id/edit", loginCheck(), (req, res, next) => {
   const gameId = req.params.id;
@@ -90,8 +90,7 @@ router.post(
         if (game.userAdded.id !== loggedInUserId) {
           res.redirect("/games/" + gameId);
         } else {
-          
-					// JUST IN CASE IF LATER HAVE BUGS UNCOMMENT
+          // JUST IN CASE IF LATER HAVE BUGS UNCOMMENT
           // if (req.body.name) {
           //   newObj.name = req.body.name;
           // } else {
@@ -112,7 +111,7 @@ router.post(
           // } else {
           //   newObj.gameLink = game.gameLink;
           // }
-					const newObj = {...req.body}
+          const newObj = { ...req.body };
           if (req.file) {
             newObj.posterUrl = req.file.path;
           } else {
@@ -134,138 +133,139 @@ router.post(
   }
 );
 
-
-// REVIEWS PAGE 
+// REVIEWS PAGE
 router.get("/:id/reviews", (req, res, next) => {
-	// res.send("Reviews ⭐️")
-	const id = req.params.id 
-	Game.findById(id)
-	.populate({
-		path: "reviews",
-		populate: {
-			path: "user"
-		}
-	})
-	.then (reviewFromDB => {
-		res.render("games/reviews", { gameReviews: reviewFromDB})
-	})
-	.catch(err => (err))
-})
+  const id = req.params.id;
+  Game.findById(id)
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "user",
+      },
+    })
+    .then((reviewFromDB) => {
+      res.render("games/reviews", { gameReviews: reviewFromDB });
+    })
+    .catch((err) => err);
+});
 
-
-// GAME DETAILS 
+// GAME DETAILS
 router.get("/:id", (req, res, next) => {
-	const id = req.params.id 
-	const loggedInUserId = req.user !== undefined ? req.user.id : 'none'
-	let sameUserCheck = false
-	Game.findById(id)
-	.populate('userAdded')
-	// REVIEWS -> showing only Username (who wrote the review) and the review 
-  // .populate({
-  //   path: "rating"
-  // })
-	.populate({
-		path: "reviews",
-		// options: {
-			// 	limit: 5
-			// },
-			populate: {
-				path: "user"
-				// options: {
-					// 	limit: 5 
-					// }
-          // populate: {
-          //   rating: "user"
-          // }
-				}
-			})
-			.then(gameFromDB => {
-				if (gameFromDB.userAdded.id === loggedInUserId) {
-					sameUserCheck = true
-				}
-        
+  const id = req.params.id;
+  const loggedInUserId = req.user !== undefined ? req.user.id : "none";
+  let sameUserCheck = false;
+  Game.findById(id)
+    .populate("userAdded")
+    // REVIEWS -> showing only Username (who wrote the review) and the review
+    // .populate({
+    //   path: "rating"
+    // })
+    .populate({
+      path: "reviews",
+      // options: {
+      // 	limit: 5
+      // },
+      populate: {
+        path: "user",
+        // options: {
+        // 	limit: 5
+        // }
+        // populate: {
+        //   rating: "user"
+        // }
+      },
+    })
+    .then((gameFromDB) => {
+      if (gameFromDB.userAdded.id === loggedInUserId) {
+        sameUserCheck = true;
+      }
 
-				const fiveReviews = gameFromDB.reviews.slice(0, 5)
-        let allRatings = gameFromDB.reviews.map(objc => objc.rating).filter(a => a !== undefined)
-        let averageRating; 
-        let sum = 0;
-        for (let number of allRatings) {
-            sum += number;
-        }
-        averageRating = Math.floor(sum / allRatings.length)
-        let averageRatingStar = ""; 
-				for (i = 0; i< averageRating; i++) {
-					averageRatingStar += "⭐️"
-				}
-        res.render("games/details", {gameDetail: gameFromDB, fiveReviews, sameUserCheck, averageRatingStar})
-			})
-			.catch(err => (err))
-		})
+      const fiveReviews = gameFromDB.reviews.slice(0, 5);
+      let allRatings = gameFromDB.reviews
+        .map((objc) => objc.rating)
+        .filter((a) => a !== undefined);
+      let averageRating;
+      let sum = 0;
+      for (let number of allRatings) {
+        sum += number;
+      }
+      averageRating = Math.floor(sum / allRatings.length);
+      let averageRatingStar = "";
+      for (i = 0; i < averageRating; i++) {
+        averageRatingStar += "⭐️";
+      }
+      res.render("games/details", {
+        gameDetail: gameFromDB,
+        fiveReviews,
+        sameUserCheck,
+        averageRatingStar,
+      });
+    })
+    .catch((err) => err);
+});
 
+router.get("/:id/delete", loginCheck(), (req, res, next) => {
+  const id = req.params.id;
+  const loggedInUserId = req.user.id;
+  Game.findById(id)
+    .populate("userAdded")
+    .then((foundGame) => {
+      if (foundGame.userAdded.id === loggedInUserId) {
+        Game.findByIdAndDelete(id)
+          .then((deletedGame) => {
+            res.redirect("/dashboard");
+          })
+          .catch((err) => console.log(err));
+      } else {
+        res.redirect("/");
+      }
+    })
+    .catch((err) => console.log(err));
+});
 
-
-router.get("/:id/delete", loginCheck(), (req,res,next) => {
-	const id = req.params.id;
-	const loggedInUserId = req.user.id;
-	Game.findById(id).populate('userAdded')
-	.then(foundGame => {
-		if (foundGame.userAdded.id === loggedInUserId) {
-			Game.findByIdAndDelete(id)
-			.then(deletedGame => {
-				res.redirect('/dashboard')
-			})
-			.catch(err => console.log(err))
-		} else {
-			res.redirect('/')
-		}
-	})
-	.catch(err => console.log(err))
-})
-
-
-
-
-// REVIEW POST -> Uploading review to the DB 
+// REVIEW POST -> Uploading review to the DB
 router.post("/:id", (req, res, next) => {
-	const id = req.params.id
-	const review = req.body.review 
-  const valueRating = req.body.rate 
-	const user = req.user
-	Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, text: review, rating: valueRating}}})
-	.then(gameFromDB => {
-		res.redirect(id) 
-	})
-	.catch(err => (err))
-})
-
-// STAR RATING POST 
-router.post("/:id/star-rating", (req, res, next) => {
-  const id = req.params.id
-  const valueRating = req.body.rate 
-  const user = req.user 
-  Game.findByIdAndUpdate(id, {$push: {reviews: {user: user, rating: valueRating}}})
-  .then(star => {
-    res.redirect(id)
+  const id = req.params.id;
+  const review = req.body.review;
+  const valueRating = req.body.rate;
+  const user = req.user;
+  Game.findByIdAndUpdate(id, {
+    $push: { reviews: { user: user, text: review, rating: valueRating } },
   })
-  .catch(err =>(err))
-})
+    .then((gameFromDB) => {
+      res.redirect(id);
+    })
+    .catch((err) => err);
+});
+
+// STAR RATING POST
+router.post("/:id/star-rating", (req, res, next) => {
+  const id = req.params.id;
+  const valueRating = req.body.rate;
+  const user = req.user;
+  Game.findByIdAndUpdate(id, {
+    $push: { reviews: { user: user, rating: valueRating } },
+  })
+    .then((star) => {
+      res.redirect(id);
+    })
+    .catch((err) => err);
+});
 
 router.get("/:id/star-rating", (req, res, next) => {
-  // res.send("hello") 
-  const id = req.params.id 
-	Game.findById(id)
-	.populate({
-		path: "rating",
-		populate: {
-			path: "user"
-		}
-	})
-	.then (ratingFromDB => {
-    const reviews = ratingFromDB.reviews.map(review => review.rating)
-		res.render("games/star-rating", { gameStarRating: reviews})
-	})
-	.catch(err => (err))
-})
-		
-		
+  const id = req.params.id;
+  Game.findById(id)
+    .populate({
+      path: "rating",
+      populate: {
+        path: "user",
+      },
+    })
+    .then((ratingFromDB) => {
+      const reviews = ratingFromDB.reviews.map((review) => review.rating);
+      res.render("games/star-rating", { gameStarRating: reviews });
+    })
+    .catch((err) => err);
+});
+
 module.exports = router;
