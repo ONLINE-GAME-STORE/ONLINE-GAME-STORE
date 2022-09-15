@@ -155,8 +155,7 @@ router.get("/:id/reviews", (req, res, next) => {
 // GAME DETAILS 
 router.get("/:id", (req, res, next) => {
 	const id = req.params.id 
-	const loggedInUserId = req.user.id
-  // const averageRating = req.user.rating
+	const loggedInUserId = req.user !== undefined ? req.user.id : 'none'
 	let sameUserCheck = false
 	Game.findById(id)
 	.populate('userAdded')
