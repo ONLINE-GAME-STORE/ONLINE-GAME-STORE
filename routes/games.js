@@ -7,6 +7,8 @@ const {
 const uploader = require("../config/cloudinary");
 const User = require("../models/User");
 const { populate } = require("../models/Game");
+const { default: mongoose } = require("mongoose");
+const ObjectId = require('mongodb').ObjectId; 
 
 // GAME INDEX (LIBRARY)
 router.get("/", (req, res, next) => {
@@ -200,11 +202,14 @@ router.get("/:id", (req, res, next) => {
 			})
 			.catch(err => (err))
 		})
-		
+
+
+
 router.get("/:id/delete", loginCheck(), (req,res,next) => {
 	const id = req.params.id;
+	let idObj = new ObjectId(id)
 	const loggedInUserId = req.user.id;
-	Game.findOne({id : id}).populate('userAdded')
+	Game.findOne({_id : idObj}).populate('userAdded')
 	.then(foundGame => {
 		if (foundGame.userAdded.id === loggedInUserId) {
 			Game.findByIdAndDelete(id)

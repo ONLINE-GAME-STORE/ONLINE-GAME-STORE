@@ -1,7 +1,7 @@
 
 {{#with game}}
 
-<img  src="{{posterUrl}}" alt="game poster">
+<img class="edit-game-view-img" src="{{posterUrl}}" alt="game poster">
 <form class="edit-game-form" action="/games/{{id}}/edit" method="post" enctype="multipart/form-data">
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="{{name}}">
