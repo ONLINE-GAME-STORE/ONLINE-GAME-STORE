@@ -18,9 +18,10 @@ router.post("/signup", uploader.single("profilePic"), (req, res, next) => {
 	if (req.file) {
 		profilePicInfo.profilePic = req.file.originalname
 		profilePicInfo.profilePicPath = req.file.path
+	} else {
+		profilePicInfo.profilePic = 'placeholder'
+		profilePicInfo.profilePicPath = '/images/profile-placeholder.png'
 	}
-  // const profilePic = req.file.originalname;
-  // const profilePicPath = req.file.path;
 
 	const errorMessage = []
 	if (password.length < 6) {
