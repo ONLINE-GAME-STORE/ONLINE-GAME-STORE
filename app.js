@@ -118,6 +118,7 @@ passport.use(
   )
 );
 
+
 // Use express-sessions and passport to handle user's sessions
 app.use(passport.initialize());
 app.use(passport.session());
