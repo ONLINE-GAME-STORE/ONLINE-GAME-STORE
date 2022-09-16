@@ -558,4 +558,11 @@ button {
   .edit-game-view-img {
     width: 50%;
   }
+  .button-holder {
+    flex-direction: column;
+    width: 70%;
+  }
+  .review-form textarea {
+    width: 80%;
+  }
 }
