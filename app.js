@@ -93,7 +93,7 @@ passport.use(
       // careful what you put here everything should match
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: "https://irongames.cyclic.app/auth/github/callback",
+      callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/github/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile);
@@ -117,6 +117,35 @@ passport.use(
     }
   )
 );
+
+const FacebookStrategy = require("passport-facebook").Strategy;
+
+passport.use(
+  new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/facebook/callback",
+  },
+  (accessToken, refreshToken, profile, done) => {
+    console.log('facebook profile is',profile)
+    User.findOne({
+      facebookId: profile.id,
+    }).then(user => {
+      if (user !== null) {
+        done(null, user);
+      } else {
+        User.create({
+          facebookId: profile.id,
+          username: profile.displayName,
+        }).then(user => {
+          done(null, user);
+        })
+      }
+    })
+    
+  })
+)
+
 
 
 // Use express-sessions and passport to handle user's sessions

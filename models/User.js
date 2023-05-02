@@ -10,6 +10,7 @@ const userSchema = new Schema(
     password: String,
     githubLink: String,
     githubId: String,
+    facebookId: String,
     profilePic: String,
     profilePicPath: String,
     games: [{
