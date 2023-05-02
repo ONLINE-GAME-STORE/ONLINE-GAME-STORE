@@ -146,6 +146,34 @@ passport.use(
   })
 )
 
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+passport.use(
+  new GoogleStrategy({
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/google/callback",
+  },
+  (accessToken, refreshToken, profile, done) => {
+    console.log('google profile is',profile)
+    User.findOne({
+      googleId: profile.id,
+    }).then(user => {
+      if (user !== null) {
+        done(null, user);
+      } else {
+        User.create({
+          googleId: profile.id,
+          username: profile.displayName,
+          profilePicPath: profile._json.picture,
+        }).then(user => {
+          done(null, user);
+        })
+      }
+    })
+  })
+)
+
 
 
 // Use express-sessions and passport to handle user's sessions
