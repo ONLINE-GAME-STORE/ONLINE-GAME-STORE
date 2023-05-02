@@ -12,6 +12,7 @@ const userSchema = new Schema(
     githubId: String,
     facebookId: String,
     googleId: String,
+    redditId: String,
     profilePic: String,
     profilePicPath: String,
     games: [{

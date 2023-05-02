@@ -164,6 +164,14 @@ router.get("/google/callback",
   passport.authenticate('google', {
     successRedirect: '/dashboard',
     failureRedirect: '/auth/signup'
+  })
+  )
+
+router.get("/reddit", passport.authenticate("reddit", { duration: 'permanent'}));
+router.get('/reddit/callback',
+  passport.authenticate('reddit', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/auth/signup'
   }))
 
 module.exports = router;

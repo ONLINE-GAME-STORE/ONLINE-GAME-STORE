@@ -127,7 +127,7 @@ passport.use(
     callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/facebook/callback",
   },
   (accessToken, refreshToken, profile, done) => {
-    console.log('facebook profile is',profile)
+    // console.log('facebook profile is',profile)
     User.findOne({
       facebookId: profile.id,
     }).then(user => {
@@ -155,7 +155,7 @@ passport.use(
     callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/google/callback",
   },
   (accessToken, refreshToken, profile, done) => {
-    console.log('google profile is',profile)
+    // console.log('google profile is',profile)
     User.findOne({
       googleId: profile.id,
     }).then(user => {
@@ -173,6 +173,39 @@ passport.use(
     })
   })
 )
+
+
+
+import('passport-reddit')
+  .then(module => {
+    passport.use(
+      new module.Strategy({
+        clientID: process.env.REDDIT_ID,
+        clientSecret: process.env.REDDIT_SECRET,
+        callbackURL: "https://oscar-funny-likewise-navigation.trycloudflare.com/auth/reddit/callback",
+      },
+      (accessToken, refreshToken, profile, done) => {
+        console.log('reddit profile is',profile)
+        User.findOne({
+          redditId: profile.id, 
+        }).then(user => {
+          if (user !== null) {
+            done(null, user);
+          } else {
+            User.create({
+              redditId: profile.id,
+              username: profile._json.name,
+              profilePicPath: profile._json.icon_img,
+            }).then(user => {
+              done(null, user);
+            })
+          }
+        })
+      })
+    );
+
+  })
+
 
 
 
